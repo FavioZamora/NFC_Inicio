@@ -1,0 +1,68 @@
+# Asegúrate de tener estas variables globales definidas al inicio de tu app.py:
+# import time
+# import hashlib
+# USUARIOS_DB = { ... }
+# intentos_fallidos = {} 
+# MAX_INTENTOS = 3
+# TIEMPO_BLOQUEO_SEGUNDOS = 300 # 5 minutos
+
+@app.route('/verify_manual_login', methods=['POST'])
+def verify_manual_login():
+    """Verifica las credenciales ingresadas manualmente con bloqueo temporal."""
+    
+    # 1. Obtener datos del formulario
+    pin_ingresado = request.form.get('pin')
+    nfc_id = request.form.get('nfc_id').strip().upper()
+
+    if nfc_id not in USUARIOS_DB:
+        return redirect(url_for('login_manual', error_msg="ID de Usuario/Tarjeta no encontrado."))
+        
+    usuario = USUARIOS_DB[nfc_id]
+    
+    # Obtener el estado del usuario o inicializar si es nuevo
+    estado_intento = intentos_fallidos.get(nfc_id, {'intentos': 0, 'bloqueado_hasta': 0.0})
+    current_attempts = estado_intento['intentos']
+    tiempo_bloqueo = estado_intento['bloqueado_hasta']
+    
+    # 2. 🛑 VERIFICAR BLOQUEO TEMPORAL 
+    if tiempo_bloqueo > time.time():
+        tiempo_restante = round(tiempo_bloqueo - time.time())
+        
+        # Redirigir a la página de error con el tiempo restante
+        return redirect(url_for('acceso_denegado', 
+                                error_msg=f"Acceso Manual Bloqueado. Intente de nuevo en {tiempo_restante} segundos."))
+    
+    # Si el tiempo de bloqueo ya expiró, reseteamos el contador para permitir un nuevo intento
+    if tiempo_bloqueo > 0 and tiempo_bloqueo <= time.time():
+        current_attempts = 0 
+
+    # 3. ✅ PIN CORRECTO
+    if pin_ingresado == usuario["pin_correcto"]:
+        # Limpiar el estado de intentos y bloqueo
+        intentos_fallidos[nfc_id] = {'intentos': 0, 'bloqueado_hasta': 0.0} 
+        
+        # Generar hash y redirigir a acceso concedido
+        tx_hash = hashlib.sha256(f"{nfc_id}-{pin_ingresado}-{time.time()}".encode()).hexdigest()
+        
+        return redirect(url_for('acceso_concedido', 
+                                nombre=usuario["nombre_completo"], 
+                                tx=tx_hash))
+    
+    # 4. 🚫 PIN INCORRECTO
+    else:
+        current_attempts += 1
+
+        if current_attempts >= MAX_INTENTOS:
+            # 🎯 APLICAR BLOQUEO TEMPORAL
+            tiempo_fin_bloqueo = time.time() + TIEMPO_BLOQUEO_SEGUNDOS
+            intentos_fallidos[nfc_id] = {'intentos': current_attempts, 'bloqueado_hasta': tiempo_fin_bloqueo}
+            
+            return redirect(url_for('acceso_denegado', 
+                                    error_msg=f"Credenciales Bloqueadas. Superó los {MAX_INTENTOS} intentos. Espere {TIEMPO_BLOQUEO_SEGUNDOS} segundos."))
+        else:
+            # Actualizar solo el conteo de intentos
+            intentos_fallidos[nfc_id] = {'intentos': current_attempts, 'bloqueado_hasta': 0.0}
+            
+            # Volver a la página de login manual con mensaje de error
+            return redirect(url_for('login_manual', 
+                                    error_msg=f"PIN incorrecto. Le quedan {MAX_INTENTOS - current_attempts} intentos."))
