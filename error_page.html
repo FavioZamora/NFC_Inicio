@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Denegado</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body class="error">
+
+    <header>
+        <h1>🚫 ACCESO DENEGADO</h1>
+    </header>
+
+    <main>
+        <div class="mensaje-resultado">
+            <h2>Verificación Fallida</h2>
+            <p class="instruccion error-msg">
+                <strong>Razón:</strong> {{ error_message }}
+            </p>
+            <p>
+                Sus credenciales (PIN) no coinciden. Por favor, intente de nuevo.
+            </p>
+            
+            <button onclick="window.location.href = '/';" class="btn-secondary">
+                Reintentar Autenticación
+            </button>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; Proyecto de Seguridad NFC</p>
+    </footer>
+    
+</body>
+</html>

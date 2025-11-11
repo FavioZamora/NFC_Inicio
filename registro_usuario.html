@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Nuevo Usuario NFC</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos básicos para el formulario de registro (mover a styles.css) */
+        body { font-family: sans-serif; background-color: #f7f4f4; color: #333; padding-top: 50px; }
+        .container { max-width: 500px; margin: 0 auto; padding: 30px; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        h1 { color: #000000; text-align: center; margin-bottom: 20px; }
+        .grupo-formulario { margin-bottom: 15px; text-align: left; }
+        .grupo-formulario label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        .grupo-formulario input, .grupo-formulario select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        .mensaje-info { background-color: #e9f7ef; color: #28a745; padding: 10px; border: 1px solid #28a745; border-radius: 5px; margin-bottom: 20px; text-align: center; }
+        button.btn-primary { background-color: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; width: 100%; font-size: 1.1em; margin-top: 20px; transition: background-color 0.3s; }
+        button.btn-primary:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Registro de Credenciales</h1>
+    </header>
+
+    <main>
+        <div class="container">
+            <h2>Asignar Tarjeta y PIN a Usuario</h2>
+            
+            
+            <div class="mensaje-info">
+                <p>✅ ¡Usuario Registrado!</p>
+            </div>
+            
+
+            <form action="/submit_registro" method="POST">
+                
+                <div class="grupo-formulario">
+                    <label for="nfc_id">UID de Tarjeta NFC (Lectura):</label>
+                    <input type="text" id="nfc_id" name="nfc_id" placeholder="Ej: NFC1A2B3C4D" required>
+                    <small>Este es el identificador único leído de la tarjeta.</small>
+                </div>
+
+                <hr>
+
+                <div class="grupo-formulario">
+                    <label for="nombre_completo">Nombre Completo:</label>
+                    <input type="text" id="nombre_completo" name="nombre_completo" required>
+                </div>
+
+                <div class="grupo-formulario">
+                    <label for="departamento">Departamento:</label>
+                    <select id="departamento" name="departamento" required>
+                        <option value="IT">Tecnología (IT)</option>
+                        <option value="Seguridad">Seguridad</option>
+                        <option value="RRHH">Recursos Humanos (RRHH)</option>
+                        <option value="Ventas">Ventas</option>
+                    </select>
+                </div>
+
+                <div class="grupo-formulario">
+                    <label for="security_level">Nivel de Acceso:</label>
+                    <select id="security_level" name="security_level" required>
+                        <option value="Bajo">Nivel 1 (Bajo)</option>
+                        <option value="Medio">Nivel 2 (Medio)</option>
+                        <option value="Alto">Nivel 3 (Alto)</option>
+                    </select>
+                </div>
+                
+                <hr>
+
+                <div class="grupo-formulario">
+                    <label for="pin_correcto">PIN Inicial (4 dígitos):</label>
+                    <input type="password" id="pin_correcto" name="pin_correcto" maxlength="4" pattern="\d{4}" title="Debe ser un código de 4 dígitos" required>
+                    <small>Se recomienda un PIN temporal que el usuario deba cambiar.</small>
+                </div>
+
+                <button type="submit" class="btn-primary">Registrar Usuario y Activar Tarjeta</button>
+            </form>
+            
+            <p style="margin-top: 15px;"><a href="/Pagina/Home.html">Volver al Inicio</a></p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; Proyecto de Seguridad NFC</p>
+    </footer>
+    
+</body>
+</html>

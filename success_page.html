@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Concedido</title>
+    <link rel="stylesheet" href="/Pagina/styles.css">
+</head>
+<body class="success">
+
+    <header>
+        <h1>🎉 ¡AUTENTICACIÓN EXITOSA!</h1>
+    </header>
+
+    <main>
+        <div class="mensaje-resultado">
+            <h2>Bienvenido, {{ nombre }}</h2>
+            <p class="instruccion">
+                Su identidad ha sido verificada con éxito mediante **NFC y PIN**.
+            </p>
+            
+            <div class="datos-transaccion">
+                <h3>Detalle de la Transacción</h3>
+                <p><strong>Registro en Blockchain:</strong></p>
+                <p class="tx-hash">{{ tx }}</p>
+            </div>
+            
+            <button onclick="window.location.href = '/';" class="btn-primary">
+                Finalizar y Volver
+            </button>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; Proyecto de Seguridad NFC</p>
+    </footer>
+    
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Seguridad NFC</title>
+    <link rel="stylesheet" href="styles.css"> <style>
+        body { font-family: sans-serif; background-color: #f4f7f6; color: #333; text-align: center; padding-top: 50px; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        h1 { color: #000000; margin-bottom: 30px; }
+        .opciones-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; }
+        .opcion { padding: 30px; border-radius: 8px; text-decoration: none; color: white; font-weight: bold; transition: transform 0.2s; }
+        .opcion:hover { transform: translateY(-5px); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
+        .opcion.acceso { background-color: #28a745; } /* Verde para Acceso */
+        .opcion.registro { background-color: #007bff; } /* Azul para Registro */
+        .opcion h2 { margin: 0 0 10px 0; font-size: 1.5em; }
+        .opcion p { font-size: 0.9em; opacity: 0.9; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🏛️ Sistema Central de Seguridad NFC</h1>
+    </header>
+
+    <main>
+        <div class="container">
+            <h2>Seleccione una Opción</h2>
+            <p>Portal de control para autenticación de usuarios y gestión de credenciales.</p>
+
+            <div class="opciones-grid">
+                
+                <a href="/nfc_blockchain/Pagina/pin_verification.html" class="opcion acceso">
+                    <h2>🔐 ACCEDER</h2>
+                    <p>Inicie el proceso de verificación NFC y PIN.</p>
+                </a>
+                
+                <a href="/nfc_blockchain/Pagina/registro_usuario.html" class="opcion registro">
+                    <h2>📝 REGISTRO</h2>
+                    <p>Agregar o dar de alta una nueva tarjeta NFC/Usuario.</p>
+                </a>
+
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; Proyecto de Seguridad NFC</p>
+    </footer>
+    
+</body>
+</html>

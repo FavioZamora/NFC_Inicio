@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Manual</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos básicos para el formulario de login (mover a styles.css) */
+        body { font-family: sans-serif; background-color: #f4f7f6; color: #333; padding-top: 50px; text-align: center; }
+        .container { max-width: 400px; margin: 0 auto; padding: 30px; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        h1 { color: #000000; margin-bottom: 20px; }
+        .grupo-formulario { margin-bottom: 20px; text-align: left; }
+        .grupo-formulario label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        .grupo-formulario input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        button.btn-primary { background-color: #28a745; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; width: 100%; font-size: 1.1em; transition: background-color 0.3s; }
+        button.btn-primary:hover { background-color: #1e7e34; }
+        .error-message { color: #dc3545; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 10px; border-radius: 5px; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🔑 Control de Acceso</h1>
+    </header>
+
+    <main>
+        <div class="container">
+            <h2>Ingreso de Credenciales</h2>
+            
+            {% if error_msg %}
+            <div class="error-message">
+                <p>❌ {{ error_msg }}</p>
+            </div>
+            {% endif %}
+
+            <form action="/verify_manual_login" method="POST">
+                
+                <div class="grupo-formulario">
+                    <label for="nfc_id">ID de Tarjeta / Usuario:</label>
+                    <input type="text" id="nfc_id" name="nfc_id" placeholder="Ej: NFC1234" required>
+                </div>
+
+                <form id="pinForm" action="/verify_pin" method="POST">
+                <h2>Paso 2: Ingrese su PIN</h2>
+                <p class="instruccion">
+                    Confirme su identidad ingresando su PIN para ACCEDER.
+                </p>
+                
+                <div class="grupo-formulario">
+                    <label for="pin">Código PIN:</label>
+                    <input type="password" id="pin" name="pin" maxlength="4" required>
+                    <input type="hidden" name="nfc_id" value="{{ nfc_id }}">
+                </div>
+                
+                <button type="submit" class="btn-primary">Iniciar Sesión</button>
+            </form>
+            
+            <p style="margin-top: 20px;"><a href="/nfc_blockchain/Pagina/Home.html">Volver al Inicio</a></p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; Proyecto de Seguridad NFC</p>
+    </footer>
+    
+</body>
+</html>
